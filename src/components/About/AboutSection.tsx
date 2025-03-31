@@ -38,14 +38,14 @@ const AboutSection = () => {
             </p>
             <p className="text-base sm:text-lg mb-4 text-gray-700 dark:text-gray-300">
               My approach combines technical excellence with business acumen to
-              deliver solutions that address real-world challenges. When I am not
-              working with data, I enjoy participating in hackathons,
+              deliver solutions that address real-world challenges. When I am
+              not working with data, I enjoy participating in hackathons,
               contributing to open-source projects, and mentoring aspiring data
               professionals.
             </p>
             <div className="flex flex-wrap gap-4 mt-6 justify-center md:justify-start">
               <a
-                href="https://linkedin.com/in/nikhildoye"
+                href="https://linkedin.com/in/nikhil-doye"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary flex items-center gap-2"
@@ -61,7 +61,7 @@ const AboutSection = () => {
                 LinkedIn
               </a>
               <a
-                href="https://github.com/nikhildoye"
+                href="https://github.com/nikhil-doye"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-outline flex items-center gap-2"
