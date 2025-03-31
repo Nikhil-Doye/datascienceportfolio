@@ -93,7 +93,7 @@ const ContactSection = () => {
                     Location
                   </p>
                   <p className="text-sm sm:text-base text-gray-900 dark:text-white">
-                    Boston, MA
+                    USA
                   </p>
                 </div>
               </div>
@@ -104,7 +104,7 @@ const ContactSection = () => {
             </h3>
             <div className="flex space-x-3 sm:space-x-4">
               <a
-                href="https://linkedin.com/in/nikhildoye"
+                href="https://linkedin.com/in/nikhil-doye"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-300"
@@ -119,7 +119,7 @@ const ContactSection = () => {
                 </svg>
               </a>
               <a
-                href="https://github.com/nikhildoye"
+                href="https://github.com/nikhil-doye"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-300"
