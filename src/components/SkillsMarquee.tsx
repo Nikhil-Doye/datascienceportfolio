@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-// import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 interface MarqueeProps {
   direction?: "left" | "right";
@@ -13,11 +12,10 @@ interface MarqueeProps {
 
 const SkillsMarquee: React.FC<MarqueeProps> = ({
   direction = "left",
-  speed = 15,
+  speed = 20,
   pauseOnHover = true,
   className = "",
 }) => {
-  // Skills data with logos
   const skillsRow1 = [
     { name: "Python", logo: "/logos/python.svg" },
     { name: "SQL", logo: "/logos/sql.svg" },
@@ -38,21 +36,39 @@ const SkillsMarquee: React.FC<MarqueeProps> = ({
     { name: "Tableau", logo: "/logos/tableau.svg" },
   ];
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const row1Ref = useRef<HTMLDivElement>(null);
+  const row2Ref = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [fallbacks, setFallbacks] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const animate = () => {
-      if (containerRef.current && !isPaused) {
+      if (!isPaused) {
         const scrollAmount = direction === "left" ? 1 : -1;
-        containerRef.current.scrollLeft += scrollAmount;
 
-        // Reset scroll position when reaching the end
-        const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
-        if (direction === "left" && scrollLeft >= scrollWidth - clientWidth) {
-          containerRef.current.scrollLeft = 0;
-        } else if (direction === "right" && scrollLeft <= 0) {
-          containerRef.current.scrollLeft = scrollWidth - clientWidth;
+        // Row 1
+        if (row1Ref.current) {
+          row1Ref.current.scrollLeft += scrollAmount;
+          const { scrollLeft, scrollWidth, clientWidth } = row1Ref.current;
+          if (direction === "left" && scrollLeft >= scrollWidth - clientWidth) {
+            row1Ref.current.scrollLeft = 0;
+          } else if (direction === "right" && scrollLeft <= 0) {
+            row1Ref.current.scrollLeft = scrollWidth - clientWidth;
+          }
+        }
+
+        // Row 2 (reverse direction)
+        if (row2Ref.current) {
+          row2Ref.current.scrollLeft -= scrollAmount;
+          const { scrollLeft, scrollWidth, clientWidth } = row2Ref.current;
+          if (
+            direction === "right" &&
+            scrollLeft >= scrollWidth - clientWidth
+          ) {
+            row2Ref.current.scrollLeft = 0;
+          } else if (direction === "left" && scrollLeft <= 0) {
+            row2Ref.current.scrollLeft = scrollWidth - clientWidth;
+          }
         }
       }
     };
@@ -69,69 +85,70 @@ const SkillsMarquee: React.FC<MarqueeProps> = ({
     if (pauseOnHover) setIsPaused(false);
   };
 
-  // Function to duplicate items to ensure continuous scrolling
+  const handleLogoError = (key: string) => {
+    setFallbacks((prev) => ({ ...prev, [key]: true }));
+  };
+
   const duplicateItems = (items: typeof skillsRow1) => [...items, ...items];
   const row1Items = duplicateItems(skillsRow1);
   const row2Items = duplicateItems(skillsRow2);
 
+  const renderSkill = (
+    skill: { name: string; logo: string },
+    index: number,
+    rowKey: string
+  ) => {
+    const fallbackKey = `${rowKey}-${skill.name}-${index}`;
+    const showFallback = fallbacks[fallbackKey];
+
+    return (
+      <div
+        key={fallbackKey}
+        className="flex flex-col items-center justify-center mx-8 min-w-[100px]"
+      >
+        <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-lg p-2 shadow-md flex items-center justify-center">
+          {showFallback ? (
+            <span className="text-blue-500 dark:text-blue-400 text-lg font-semibold">
+              {skill.name.charAt(0)}
+            </span>
+          ) : (
+            <Image
+              src={skill.logo}
+              alt={skill.name}
+              width={50}
+              height={50}
+              className="object-contain"
+              onError={() => handleLogoError(fallbackKey)}
+            />
+          )}
+        </div>
+        <span className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+          {skill.name}
+        </span>
+      </div>
+    );
+  };
+
   return (
     <div className="w-full overflow-hidden py-8">
-      {/* <h3 className="text-xl font-bold text-center mb-6 text-gray-900 dark:text-white">
-        Technical Skills
-      </h3> */}
-
-      {/* First row */}
+      {/* Row 1 */}
       <div
-        ref={containerRef}
+        ref={row1Ref}
         className={`flex overflow-x-hidden whitespace-nowrap mb-6 ${className}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {row1Items.map((skill, index) => (
-          <div
-            key={`${skill.name}-${index}`}
-            className="flex flex-col items-center justify-center mx-8 min-w-[100px]"
-          >
-            <div className="w-12 h-12 relative bg-white dark:bg-gray-800 rounded-lg p-2 shadow-md">
-              {/* Fallback for missing logos */}
-              <div className="w-full h-full flex items-center justify-center text-blue-500 dark:text-blue-400">
-                {skill.name.charAt(0)}
-              </div>
-            </div>
-            <span className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-              {skill.name}
-            </span>
-          </div>
-        ))}
+        {row1Items.map((skill, index) => renderSkill(skill, index, "row1"))}
       </div>
 
-      {/* Second row (opposite direction) */}
+      {/* Row 2 */}
       <div
-        className={`flex overflow-x-hidden whitespace-nowrap mb-6 ${className}`}
+        ref={row2Ref}
+        className={`flex overflow-x-hidden whitespace-nowrap ${className}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div
-          className="flex animate-marquee-reverse"
-          style={{ animationDuration: `${speed}s` }}
-        >
-          {row2Items.map((skill, index) => (
-            <div
-              key={`${skill.name}-${index}`}
-              className="flex flex-col items-center justify-center mx-8 min-w-[100px]"
-            >
-              <div className="w-12 h-12 relative bg-white dark:bg-gray-800 rounded-lg p-2 shadow-md">
-                {/* Fallback for missing logos */}
-                <div className="w-full h-full flex items-center justify-center text-blue-500 dark:text-blue-400">
-                  {skill.name.charAt(0)}
-                </div>
-              </div>
-              <span className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                {skill.name}
-              </span>
-            </div>
-          ))}
-        </div>
+        {row2Items.map((skill, index) => renderSkill(skill, index, "row2"))}
       </div>
     </div>
   );
