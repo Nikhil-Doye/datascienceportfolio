@@ -115,8 +115,8 @@ const SkillsMarquee: React.FC<MarqueeProps> = ({
             <Image
               src={skill.logo}
               alt={skill.name}
-              width={50}
-              height={50}
+              width={500}
+              height={500}
               className="object-contain"
               onError={() => handleLogoError(fallbackKey)}
             />
