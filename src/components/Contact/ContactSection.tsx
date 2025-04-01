@@ -7,8 +7,8 @@ const ContactSection = () => {
     <section id="contact" className="section-padding">
       <div className="container-custom">
         <h2 className="section-title">Get In Touch</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-6 mt-6 sm:mt-8">
-          <div className="card">
+        <div className="flex justify-center mt-6 sm:mt-8">
+          <div className="card w-full max-w-xl">
             <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
               Contact Information
             </h3>
@@ -139,8 +139,9 @@ const ContactSection = () => {
               </a>
             </div>
           </div>
+        </div>
 
-          {/* <div className="card">
+        {/* <div className="card">
             <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Send Me a Message</h3>
             <form className="space-y-3 sm:space-y-4">
               <div>
@@ -191,7 +192,6 @@ const ContactSection = () => {
               </button>
             </form>
           </div>*/}
-        </div>
       </div>
     </section>
   );
