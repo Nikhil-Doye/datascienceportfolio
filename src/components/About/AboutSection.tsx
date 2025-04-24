@@ -81,7 +81,7 @@ const AboutSection = () => {
                 GitHub
               </a>
               <Link
-                href="/Nikhil_Doye_Resume.pdf"
+                href="/CV.pdf"
                 target="_blank"
                 className="btn-primary flex items-center gap-2"
               >

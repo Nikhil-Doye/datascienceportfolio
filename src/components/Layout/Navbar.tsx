@@ -101,7 +101,7 @@ const Navbar = () => {
         
         <div className="hidden md:flex md:order-2 items-center space-x-3">
           <ThemeToggle />
-          <Link href="/Nikhil_Doye_Resume.pdf" target="_blank" className="btn-primary">
+          <Link href="/CV.pdf" target="_blank" className="btn-primary">
             Resume
           </Link>
         </div>

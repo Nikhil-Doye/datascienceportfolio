@@ -10,9 +10,14 @@ const TypedText = () => {
   const [loopNum, setLoopNum] = React.useState(0);
   const [typingSpeed, setTypingSpeed] = React.useState(150);
 
-  const roles = ['Data Analyst', 'Data Scientist', 'Data Engineer', 'Machine Learning Engineer'];
-
   React.useEffect(() => {
+    const roles = [
+      "Data Analyst",
+      "Data Scientist",
+      "Data Engineer",
+      "Machine Learning Engineer",
+    ];
+
     const handleTyping = () => {
       const i = loopNum % roles.length;
       const fullText = roles[i];
@@ -34,7 +39,7 @@ const TypedText = () => {
 
     const timer = setTimeout(handleTyping, typingSpeed);
     return () => clearTimeout(timer);
-  }, [text, isDeleting, loopNum, typingSpeed, roles]);
+  }, [text, isDeleting, loopNum, typingSpeed]);
 
   return (
     <div className="flex items-center h-12">
@@ -60,7 +65,7 @@ const HeroSection = () => {
               Transforming Data into Actionable Insights
             </p>
             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-              <Link href="/Nikhil_Doye_Resume.pdf" target="_blank" className="btn-primary">
+              <Link href="/CV.pdf" target="_blank" className="btn-primary">
                 View Resume
               </Link>
               <a href="#projects" className="btn-outline">
